@@ -1,0 +1,29 @@
+import { useState,useEffect } from "react";
+import {fetchDataFromApi} from '../utils/api';
+
+const useFetch=(url)=>{
+ 
+    const[data,setData]=useState(null);
+    const[error,setError]=useState(null);
+    const[loading,setLoading]=useState(null);
+
+    useEffect(()=>{
+        setLoading("loading...");
+        setData(null);
+        setError(null);
+        
+        fetchDataFromApi(url)
+        .then((response)=>{
+            setData(response);
+            setLoading(false);
+        })
+        .catch((error)=>{
+           setLoading(false);
+           setError("Something went wrong...");
+        });
+    },[url]);
+
+    return {data,error,loading};
+}
+
+export default useFetch;
